@@ -41,11 +41,14 @@ library EdOnBN254 {
         Affine memory a1,
         Affine memory a2
     ) public view returns (Affine memory) {
-        if (a1.x == 0 && a1.y == 0) {
+        // If we are adding the identity element, return early
+        // NOTE: this function would return the same values if we deleted these two if statements,
+        //       but perhaps it will save on gas if we are often adding to the identity
+        if (a1.x == 0 && a1.y == 1) {
             return a2;
         }
 
-        if (a2.x == 0 && a2.y == 0) {
+        if (a2.x == 0 && a2.y == 1) {
             return a1;
         }
 
@@ -72,7 +75,7 @@ library EdOnBN254 {
     ) public view returns (Affine memory) {
         uint256 remaining = s;
         Affine memory p = Affine(a.x, a.y);
-        Affine memory ret = Affine(0, 0);
+        Affine memory ret = Affine(0, 1);
 
         while (remaining != 0) {
             if ((remaining & 1) != 0) {
