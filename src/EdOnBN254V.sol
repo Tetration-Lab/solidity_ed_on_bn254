@@ -75,6 +75,8 @@ library EdOnBN254 {
     ) public view returns (Affine memory) {
         uint256 remaining = s;
         Affine memory p = Affine(a.x, a.y);
+        // Initialize this to the identity. Note: (0, 0) is not a point on this curve
+        // Reference: https://github.com/privacy-scaling-explorations/zk-kit/blob/689e6871344c19e7f78df064b62d2bf7697ae3b8/packages/baby-jubjub/src/baby-jubjub.ts#L73
         Affine memory ret = Affine(0, 1);
 
         while (remaining != 0) {
